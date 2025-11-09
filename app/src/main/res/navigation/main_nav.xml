@@ -131,4 +131,27 @@
         android:label="Từ vựng đã thuộc"
         tools:layout="@layout/fragment_learned_words" />
 
+
+    <!-- k -->
+
+    <fragment
+        android:id="@+id/nav_learn"
+        android:name="com.dex.lingbook.learn.nav.LearnSkillMapFragment"
+        android:label="Learn">
+        <action
+            android:id="@+id/action_learnSkillMap_to_learnLesson"
+            app:destination="@id/learnLesson" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/learnLesson"
+        android:name="com.dex.lingbook.learn.nav.LearnLessonFragment"
+        android:label="Lesson">
+        <argument android:name="skillId" app:argType="string" />
+        <argument android:name="lessonId" app:argType="string" />
+        <argument android:name="lessonTitle" app:argType="string" />
+        <argument android:name="lessonType" app:argType="string" />
+    </fragment>
+
+
 </navigation>

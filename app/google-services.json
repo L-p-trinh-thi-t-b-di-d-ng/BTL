@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "326425345779",
+    "firebase_url": "https://lingbook-17d10-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "lingbook-17d10",
     "storage_bucket": "lingbook-17d10.firebasestorage.app"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.dex.lingbook",
             "certificate_hash": "e12370972a87c78ed61559422b496ae84260337c"
+          }
+        },
+        {
+          "client_id": "326425345779-f1vpnvqegmauekusiotuftjib189r5m7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dex.lingbook",
+            "certificate_hash": "42d886fa9d7943053871ae329c84d5c2948e937b"
           }
         },
         {

@@ -99,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener { authResult ->
                 Log.d(TAG, "signInWithEmail:success")
-                val uid = authResult.user!!.uid
+                authResult.user!!.uid
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
                 navigateToMain()
             }

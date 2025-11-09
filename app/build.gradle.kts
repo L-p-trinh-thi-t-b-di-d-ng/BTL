@@ -67,6 +67,9 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.ui.text)
+    implementation(libs.androidx.ui.tooling.preview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,7 +79,7 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
     // Firebase Authentication:
-     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-auth")
     // Cloud Firestore:
     implementation("com.google.firebase:firebase-firestore")
 
@@ -99,11 +102,12 @@ dependencies {
 
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.4.0")
+    debugImplementation(libs.androidx.ui.tooling)
 
     // Material Components
-    implementation("androidx.compose.material:material:1.8.3")
+    //implementation("androidx.compose.material:material:1.8.3")
 
-    // *** Navigation Component ***
+    // *** Navigtion Component ***
     // Navigation Component for Android, used for managing app navigation
     val nav_version = "2.9.0"
 
@@ -131,4 +135,15 @@ dependencies {
 
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.0")
+
+    // -----------------------------
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3")
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+
+    // (Tùy chọn) Thêm nếu bạn cần giao diện UI có sẵn như PlayerView
+    implementation("androidx.media3:media3-ui:1.4.1")
+    implementation("androidx.compose.material:material-icons-extended")
 }

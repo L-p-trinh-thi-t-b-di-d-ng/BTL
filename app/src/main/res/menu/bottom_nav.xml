@@ -7,6 +7,11 @@
         android:title="@string/lesson" />
 
     <item
+        android:id="@+id/nav_learn"
+        android:icon="@drawable/ic_school"
+        android:title="Learn" />
+
+    <item
         android:id="@+id/nav_vocabulary"
         android:icon="@drawable/ic_vocabulary_24"
         android:title="@string/vocabulary" />
@@ -20,5 +25,4 @@
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_account_24"
         android:title="@string/account" />
-
 </menu>

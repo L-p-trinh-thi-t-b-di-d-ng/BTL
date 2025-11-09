@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         // AppBarConfiguration định nghĩa các màn hình "cấp cao nhất".
         // Khi ở các màn hình này, Toolbar sẽ không hiển thị nút Back.
-        val appBarConfiguration = AppBarConfiguration(
+        AppBarConfiguration(
             setOf(R.id.nav_lesson, R.id.nav_vocabulary, R.id.nav_progress, R.id.nav_profile)
         )
 
