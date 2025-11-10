@@ -25,7 +25,9 @@ data class LessonUiState(
 )
 
 class LearnViewModel(
-    private val repo: LearnRepository = LearnRepository()
+    private val repo: LearnRepository = LearnRepository(),
+    private var currentSkillId: String? = null
+
 ) : ViewModel() {
 
     private val _skillMap = MutableStateFlow(SkillMapUiState())
@@ -53,6 +55,7 @@ class LearnViewModel(
     }
 
     fun loadLessonsAndStart(skill: Skill, onOpenLesson: (Learn) -> Unit) {
+        currentSkillId = skill.id
         viewModelScope.launch {
             repo.loadLessons(skill.id)
                 .onSuccess { lessons ->
@@ -68,6 +71,7 @@ class LearnViewModel(
     }
 
     fun startLesson(skillId: String, lesson: Learn) {
+        currentSkillId = skillId
         viewModelScope.launch {
             // cập nhật chỉ số bài hiện tại trong cache
             cachedLessons.indexOfFirst { it.id == lesson.id }
@@ -119,4 +123,12 @@ class LearnViewModel(
     }
 
     fun resetLesson() { _lessonState.value = LessonUiState() }
+
+    fun unlockNextSkillAndRefresh() {
+        val sid = currentSkillId ?: return
+        viewModelScope.launch {
+            repo.unlockNextSkill(sid)
+            loadSkillMap() // gọi lại hàm đang load danh sách skill để UI cập nhật
+        }
+    }
 }

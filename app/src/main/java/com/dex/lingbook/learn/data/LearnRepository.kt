@@ -15,6 +15,10 @@ class LearnRepository(
     suspend fun loadLessons(skillId: String): Result<List<Learn>> =
         runCatching { remote.getLessons(skillId) }
 
+    suspend fun unlockNextSkill(skillId: String) = runCatching {
+        remote.unlockNextSkill(skillId) // "remote" là FirestoreSource
+    }
+
     suspend fun loadQuestions(skillId: String, learn: Learn): Result<List<Any>> = runCatching {
         when (learn.type) {
             LessonType.WORD_ORDER    -> remote.getWordOrderQuestions(skillId, learn.id)

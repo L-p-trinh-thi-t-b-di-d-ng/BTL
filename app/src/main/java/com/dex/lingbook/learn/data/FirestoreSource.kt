@@ -85,13 +85,18 @@ class FirestoreSource(
         }
     }
 
-    // Debug nhanh để xác nhận app đang trỏ DB nào
-    fun debugLogWhere(): String {
-        val opt = db.app.options
-        val s = "projectId=${opt.projectId}, appId=${opt.applicationId}, dbId=${DB_ID ?: "(default)"}"
-        android.util.Log.d("FS", s)
-        return s
+    suspend fun unlockNextSkill(currentSkillId: String) {
+        val snap = db.collection("skills").orderBy("order").get().await()
+        val docs = snap.documents
+        val i = docs.indexOfFirst { it.id == currentSkillId }
+        if (i >= 0 && i + 1 < docs.size) {
+            // mở khoá skill kế tiếp
+            docs[i + 1].reference.update("unlocked", true).await()
+            // (tuỳ chọn) đánh dấu skill hiện tại 100%
+            docs[i].reference.update("progress", 100).await()
+        }
     }
+
 }
 
 /** Mapping helpers */

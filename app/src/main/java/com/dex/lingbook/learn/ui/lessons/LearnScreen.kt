@@ -68,7 +68,11 @@ fun LessonScreen(
                 ui.finished || ui.index !in ui.questions.indices || ui.questions.isEmpty() -> {
                     FinishCard(ui.correctCount, ui.questions.size) {
                         val moved = vm.openNextLesson { next -> onOpenNext(next) }
-                        if (!moved) { onExit(); vm.resetLesson() }
+                        if (!moved) {
+                            vm.unlockNextSkillAndRefresh()
+                            onExit()
+                            vm.resetLesson()
+                        }
                     }
                 }
 
