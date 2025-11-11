@@ -44,6 +44,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.dex.lingbook.learn.model.AudioMode
 import com.dex.lingbook.learn.model.ListenChooseQuestion
+import java.util.Locale
 
 /* ===== Duolingo-like palette (cục bộ, không ảnh hưởng toàn app) ===== */
 private val DuoBlue         = Color(0xFFAED2FA) // nút xanh pastel
@@ -69,7 +70,15 @@ fun ListenChooseExercise(
         if (isUrl) ExoPlayer.Builder(context).build() else null
     }
     val tts = remember(if (!isUrl) q.id else "no-tts") {
-        if (!isUrl) TextToSpeech(context) {} else null
+        if (!isUrl) {
+            var ref: TextToSpeech? = null
+            ref = TextToSpeech(context) { status ->
+                if (status == TextToSpeech.SUCCESS) {
+                    val r = ref?.setLanguage(Locale.US)
+                }
+            }
+            ref
+        } else null
     }
     DisposableEffect(q.id) {
         if (isUrl && !q.audioUrl.isNullOrBlank()) {

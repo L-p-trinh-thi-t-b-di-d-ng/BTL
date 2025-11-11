@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dex.lingbook.learn.model.WordOrderQuestion
+import java.util.Locale
 
 // learn/ui/lessons/WordOrderExercise.kt  (sửa file hiện tại của bạn)
 @Composable
@@ -35,17 +36,25 @@ fun WordOrderExercise(
         var selected by remember(q.id) { mutableStateOf(listOf<String>()) }
         var pool     by remember(q.id) { mutableStateOf(q.shuffled) }
         val context = LocalContext.current
-        val tts = remember(q.id, q.ttsText) { q.ttsText?.let { TextToSpeech(context) {} } }
+
+        val tts = remember(q.id, q.ttsText) {
+            q.ttsText?.let {
+                var ref: TextToSpeech? = null
+                ref = TextToSpeech(context) { status ->
+                    if (status == TextToSpeech.SUCCESS) {
+                        // Ép giọng US sau khi engine đã sẵn sàng
+                        val r = ref?.setLanguage(Locale.US)
+                    }
+                }
+                ref
+            }
+        }
         DisposableEffect(Unit) { onDispose { tts?.shutdown() } }
         val canSubmit = selected.isNotEmpty()
 
         Box(Modifier.fillMaxSize()) {
 
-            // Header đẹp + không có trái tim
-            // LessonHeader(progress = progress, onClose = onClose)
-
-            // --------- NỘI DUNG ----------
-            Column(
+             Column(
                 Modifier
                     .fillMaxSize()
                     .padding(top = 64.dp)             // chừa chỗ header
