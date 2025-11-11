@@ -6,18 +6,24 @@ import com.dex.lingbook.learn.model.*
 class LearnRepository(
     private val remote: FirestoreSource = FirestoreSource()
 ) {
-    suspend fun loadSkills(): Result<List<Skill>> = runCatching {
-        val list = remote.getSkills()
-        Log.d("SkillRepo", "skills count=${list.size}")
-        list
-    }.onFailure { Log.e("SkillRepo","loadSkills failed", it) }
+    suspend fun getSkillsForUser(uid: String) =
+        runCatching { remote.getSkillsForUser(uid) }
+
+    suspend fun unlockNextSkillForUser(uid: String, skillId: String) =
+        runCatching { remote.unlockNextSkillForUser(uid, skillId) }
+
+    suspend fun ensureUserProgressInitialized(uid: String) =
+        runCatching { remote.ensureUserProgressInitialized(uid) }
+
+    suspend fun getSkillProgressForUser(uid: String, skillId: String) =
+        runCatching { remote.getSkillProgressForUser(uid, skillId) }
+
+    suspend fun setCurrentLessonIndex(uid: String, skillId: String, index: Int) =
+        runCatching { remote.setCurrentLessonIndex(uid, skillId, index) }
 
     suspend fun loadLessons(skillId: String): Result<List<Learn>> =
         runCatching { remote.getLessons(skillId) }
 
-    suspend fun unlockNextSkill(skillId: String) = runCatching {
-        remote.unlockNextSkill(skillId)
-    }
 
     suspend fun loadQuestions(skillId: String, learn: Learn): Result<List<Any>> = runCatching {
         when (learn.type) {
