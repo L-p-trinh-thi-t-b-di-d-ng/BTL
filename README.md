@@ -81,7 +81,8 @@ This project was built using modern technologies and architecture patterns recom
 
 ## 📱 Install the app on your phone
 
-<img width="330" height="330" alt="qr" src="https://github.com/user-attachments/assets/cd74333d-2b11-4ad6-8a68-8f31abc9fea7" />
+<img width="1000" height="1000" alt="LingBook" src="https://github.com/user-attachments/assets/043ede88-0cdb-4eea-bffc-b5e4f4bf1b7a" />
+
 
 
 ---
@@ -165,6 +166,7 @@ Dự án được xây dựng dựa trên các công nghệ và kiến trúc hi�
 
 ## 📱 Cài đặt ứng dụng về điện thoại
 
-<img width="330" height="330" alt="qr" src="https://github.com/user-attachments/assets/cd74333d-2b11-4ad6-8a68-8f31abc9fea7" />
+<img width="1000" height="1000" alt="LingBook" src="https://github.com/user-attachments/assets/00182052-e8e1-4fa4-ab9d-81765c80884f" />
+
 
 
