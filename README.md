@@ -79,6 +79,10 @@ This project was built using modern technologies and architecture patterns recom
 6.  In the Firebase Console, enable the following services: **Authentication** (with the Email/Password provider) and **Cloud Firestore**.
 7.  Build and run the application.
 
+## 📱 Install the app on your phone
+
+<img width="330" height="330" alt="qr" src="https://github.com/user-attachments/assets/cd74333d-2b11-4ad6-8a68-8f31abc9fea7" />
+
 
 ---
 
@@ -158,4 +162,9 @@ Dự án được xây dựng dựa trên các công nghệ và kiến trúc hi�
 5.  Tải về file `google-services.json` từ Firebase và đặt nó vào thư mục `app` của dự án.
 6.  Trong Firebase Console, bật các dịch vụ sau: **Authentication** (với nhà cung cấp Email/Password) và **Cloud Firestore**.
 7.  Build và chạy ứng dụng.
+
+## 📱 Cài đặt ứng dụng về điện thoại
+
+<img width="330" height="330" alt="qr" src="https://github.com/user-attachments/assets/cd74333d-2b11-4ad6-8a68-8f31abc9fea7" />
+
 
