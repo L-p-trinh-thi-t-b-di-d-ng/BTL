@@ -76,7 +76,7 @@ This project was built using modern technologies and architecture patterns recom
 3.  Create a new project on the [Firebase Console](https://console.firebase.google.com/).
 4.  Add an Android app to the Firebase project with the package name `com.dex.lingbook`.
 5.  Download the `google-services.json` file from Firebase and place it in the project's `app` directory.
-6.  In the Firebase Console, enable the following services: **Authentication** (with the Email/Password provider) and **Cloud Firestore**.
+6.  In the Firebase Console, enable the following services: **Authentication** (with the Email/Password provider) and **Firestore Database**.
 7.  Build and run the application.
 
 ## 📱 Install the app on your phone
@@ -161,7 +161,7 @@ Dự án được xây dựng dựa trên các công nghệ và kiến trúc hi�
 3.  Tạo một project mới trên [Firebase Console](https://console.firebase.google.com/).
 4.  Thêm một ứng dụng Android vào project Firebase với package name là `com.dex.lingbook`.
 5.  Tải về file `google-services.json` từ Firebase và đặt nó vào thư mục `app` của dự án.
-6.  Trong Firebase Console, bật các dịch vụ sau: **Authentication** (với nhà cung cấp Email/Password) và **Cloud Firestore**.
+6.  Trong Firebase Console, bật các dịch vụ sau: **Authentication** (với nhà cung cấp Email/Password) và **Firestore Database**.
 7.  Build và chạy ứng dụng.
 
 ## 📱 Cài đặt ứng dụng về điện thoại
