@@ -150,4 +150,11 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.4.1")
     implementation("androidx.compose.material:material-icons-extended")
 
+    // WorkManager
+    val work_version = "2.9.0"
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+
+    // Lifecycle (để theo dõi app vào foreground/background)
+    implementation("androidx.lifecycle:lifecycle-process:2.8.3")
+
 }
