@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".LingbookApplication"
@@ -28,8 +29,7 @@
         <activity
             android:name=".user.LoginActivity"
             android:parentActivityName=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.App.Starting" />
+            android:exported="true" />
 
         <activity
             android:name="com.dex.lingbook.user.RegisterActivity"
