@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dex.lingbook.databinding.ItemLearnedWordBinding
 import com.dex.lingbook.model.Vocabulary
 
-class LearnedWordAdapter(private var words: List<Vocabulary>) :
-    RecyclerView.Adapter<LearnedWordAdapter.ViewHolder>() {
+class LearnedWordAdapter(
+    private var words: List<Vocabulary>,
+    private val onItemClick: (Vocabulary) -> Unit
+) : RecyclerView.Adapter<LearnedWordAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemLearnedWordBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,6 +23,10 @@ class LearnedWordAdapter(private var words: List<Vocabulary>) :
         val word = words[position]
         holder.binding.tvWord.text = word.word
         holder.binding.tvDefinition.text = word.definition
+
+        holder.itemView.setOnClickListener {
+            onItemClick(word)
+        }
     }
 
     override fun getItemCount(): Int = words.size
