@@ -40,11 +40,11 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
     // --- BIẾN LOGIC VUỐT ---
     private var x1: Float = 0f
     private var x2: Float = 0f
-    private val MIN_SWIPE_DISTANCE = 150 // Ngưỡng vuốt, có thể điều chỉnh
+    private val MIN_SWIPE_DISTANCE = 150 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFlashcardBinding.inflate(inflater, container, false)
-        tts = TextToSpeech(requireContext(), this)
+        tts = TextToSpeech(requireContext(), this)  
         return binding.root
     }
 
@@ -64,7 +64,7 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
     // Thiết lập các animation cho thẻ
     private fun setupAnimations() {
         val scale = requireContext().resources.displayMetrics.density
-        binding.cardFront.cameraDistance = 8000 * scale
+        binding.cardFront.cameraDistance = 8000 * scale // KC vừa đủ
         binding.cardBack.cameraDistance = 8000 * scale
         frontAnim = AnimatorInflater.loadAnimator(requireContext(), R.animator.flip_out)
         backAnim = AnimatorInflater.loadAnimator(requireContext(), R.animator.flip_in)
@@ -77,7 +77,9 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e(TAG, "The specified language is not supported!")
                 binding.btnSpeak.isEnabled = false
-            } else {
+            }
+
+            else {
                 binding.btnSpeak.isEnabled = true
                 Log.d(TAG, "TTS Initialized Successfully!")
                 // Phát âm câu đầu tiên nếu có
@@ -91,46 +93,71 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
+    //RA LỆNH CHO TTS ĐỌC TO TỪ VỰNG HIỆN TẠI
     private fun speakCurrentWord() {
         if (vocabularyList.isNotEmpty() && currentCardIndex in vocabularyList.indices) {
+                                           //index >= 0 && index < list.size.
             val wordToSpeak = vocabularyList[currentCardIndex].word
             tts.speak(wordToSpeak, TextToSpeech.QUEUE_FLUSH, null, "")
         }
     }
 
+    //ĐI TỪ ỨNG DỤNG LÊN FIREBASE ĐỂ LẤY TỪ VỰNG VỀ HIỂN THỊ
+    // Sửa lại hàm này trong FlashcardFragment.kt
     private fun fetchVocabulary() {
         binding.progressBar.visibility = View.VISIBLE
+
+        // 1. Nhận thêm targetWordId (ID của từ muốn nhảy đến)
         val topicName = arguments?.getString("topicName")
+        val targetWordId = arguments?.getString("targetWordId")
+
         var query: Query = db.collection("vocabulary")
-        // Nếu có tên chủ đề, thêm điều kiện lọc vào câu truy vấn
+
         if (!topicName.isNullOrEmpty()) {
             query = query.whereEqualTo("topic", topicName)
         }
-        // Thực thi truy vấn
+
         query.get().addOnSuccessListener { querySnapshot ->
             binding.progressBar.visibility = View.GONE
             if (!querySnapshot.isEmpty) {
                 vocabularyList = querySnapshot.toObjects(Vocabulary::class.java)
+
+                // --- ĐOẠN MỚI THÊM VÀO ---
+                // Kiểm tra nếu có yêu cầu nhảy đến từ cụ thể
+                if (!targetWordId.isNullOrEmpty()) {
+                    // Tìm xem từ đó nằm ở vị trí số mấy trong danh sách
+                    val targetIndex = vocabularyList.indexOfFirst { it.id == targetWordId }
+
+                    // Nếu tìm thấy (index != -1) thì gán index hiện tại bằng nó
+                    if (targetIndex != -1) {
+                        currentCardIndex = targetIndex
+                    }
+                }
+                // -------------------------
+
                 displayCurrentCard()
             } else {
-                Toast.makeText(requireContext(), "Chưa có từ vựng cho chủ đề này.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Chưa có từ vựng.", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { exception ->
             binding.progressBar.visibility = View.GONE
-            Log.e(TAG, "Error fetching vocabulary for topic: $topicName", exception)
+            Log.e(TAG, "Lỗi tải từ vựng: $topicName", exception)
         }
     }
 
+    //XÓA NỘI DUNG CŨ VÀ ĐƯA NỘI DUNG MỚI RA MÀN HÌNH
     private fun displayCurrentCard() {
         if (vocabularyList.isNotEmpty() && currentCardIndex in vocabularyList.indices) {
             val vocabulary = vocabularyList[currentCardIndex]
+            //thanh ngang trên cùng màn hình để người dùng biết mình đã học được bao nhiêu phần trăm
             val progressPercentage = ((currentCardIndex + 1) * 100 / vocabularyList.size)
             binding.progressIndicator.progress = progressPercentage
-            binding.tvWord.text = vocabulary.word
-            binding.tvPronunciation.text = vocabulary.pronunciation
-            binding.tvDefinition.text = vocabulary.definition
-            binding.tvWordTypeBack.text = vocabulary.type
-            binding.tvExample.text = "Example: ${vocabulary.example}"
+
+            binding.tvWord.text = vocabulary.word           // Điền từ vựng (Hello)
+            binding.tvPronunciation.text = vocabulary.pronunciation // Điền phát âm (/həˈlō/)
+            binding.tvDefinition.text = vocabulary.definition // Điền nghĩa (Xin chào)
+            binding.tvWordTypeBack.text = vocabulary.type     // Điền loại từ (Noun/Verb) ở mặt sau
+            binding.tvExample.text = "Example: ${vocabulary.example}" // Điền câu ví dụ
             Glide.with(this).load(vocabulary.imageUrl).into(binding.ivWordImage)
             resetCard()
             speakCurrentWord()
@@ -138,6 +165,7 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     @SuppressLint("ClickableViewAccessibility")
+    //LẬT THẺ
     private fun setupClickListeners() {
         val flipClickListener = View.OnClickListener { flipCard() }
         binding.cardFront.setOnClickListener(flipClickListener)
@@ -180,13 +208,14 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     private fun flipCard() {
+        // Đang hiện mặt trước -> Muốn lật sang mặt sau
         if (isFrontVisible) {
             frontAnim.setTarget(binding.cardFront)
             backAnim.setTarget(binding.cardBack)
             frontAnim.start()
             backAnim.start()
-            binding.cardBack.visibility = View.VISIBLE
-            binding.cardFront.visibility = View.GONE
+            binding.cardBack.visibility = View.VISIBLE  // Bật mặt sau lên
+            binding.cardFront.visibility = View.GONE   // Tắt mặt trước đi
         } else {
             frontAnim.setTarget(binding.cardBack)
             backAnim.setTarget(binding.cardFront)
@@ -224,12 +253,15 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
 
         setInteractionEnabled(false)
 
+        // tối ưu hóa của Firestore, "Dot Notation" (Cập nhật lồng nhau)
         val progressData = VocabularyProgress(isLearned = isLearned)
 
         val fieldToUpdate = "vocabularyProgress.$wordId"
 
         db.collection("userProgress").document(uid)
             .update(fieldToUpdate, progressData)
+
+
             .addOnSuccessListener {
                 Log.d(TAG, "Progress for word '$wordId' saved.")
                 // Tự động chuyển sang từ tiếp theo để luồng học mượt mà
@@ -259,6 +291,7 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
         binding.cardBack.visibility = View.GONE
     }
 
+    // NGĂN SPAM OR BẤM NHẦM
     private fun setInteractionEnabled(enabled: Boolean) {
         binding.btnIKnow.isEnabled = enabled
         binding.btnDontKnow.isEnabled = enabled
@@ -267,7 +300,6 @@ class FlashcardFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     override fun onDestroyView() {
-        // Thay vì onDestroy, dùng onDestroyView trong Fragment sẽ an toàn hơn cho các tác vụ liên quan đến View
         if (::tts.isInitialized) {
             tts.stop()
             tts.shutdown()
