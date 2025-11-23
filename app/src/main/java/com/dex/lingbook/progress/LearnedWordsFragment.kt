@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController // Import cái này
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dex.lingbook.R
 import com.dex.lingbook.progress.adapter.LearnedWordAdapter
 import com.dex.lingbook.databinding.FragmentLearnedWordsBinding
 import com.dex.lingbook.model.UserProgress
@@ -33,7 +35,17 @@ class LearnedWordsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        learnedWordAdapter = LearnedWordAdapter(emptyList())
+        // Khởi tạo Adapter với hàm callback xử lý click
+        learnedWordAdapter = LearnedWordAdapter(emptyList()) { clickedWord ->
+            // Chuẩn bị dữ liệu để gửi sang Flashcard
+            val bundle = Bundle()
+            bundle.putString("topicName", clickedWord.topic)
+            bundle.putString("targetWordId", clickedWord.id)
+
+            // Chuyển trang
+            findNavController().navigate(R.id.flashcardFragment, bundle)
+        }
+
         binding.rvLearnedWords.apply {
             adapter = learnedWordAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -62,15 +74,28 @@ class LearnedWordsFragment : Fragment() {
     }
 
     private fun fetchWordDetails(wordIds: List<String>) {
-        db.collection("vocabulary").whereIn(FieldPath.documentId(), wordIds).get()
-            .addOnSuccessListener { wordSnapshots ->
-                val learnedWords = wordSnapshots.toObjects(Vocabulary::class.java)
-                learnedWordAdapter.updateData(learnedWords)
-                binding.progressBar.visibility = View.GONE
-            }
-            .addOnFailureListener {
-                binding.progressBar.visibility = View.GONE
-                Log.e(TAG, "Error fetching word details", it)
-            }
+        val chunks = wordIds.chunked(10)
+        val allLearnedWords = mutableListOf<Vocabulary>()
+        var tasksCompleted = 0
+
+        chunks.forEach { chunk ->
+            db.collection("vocabulary")
+                .whereIn(FieldPath.documentId(), chunk)
+                .get()
+                .addOnSuccessListener { wordSnapshots ->
+                    val words = wordSnapshots.toObjects(Vocabulary::class.java)
+                    allLearnedWords.addAll(words)
+                    tasksCompleted++
+
+                    if (tasksCompleted == chunks.size) {
+                        learnedWordAdapter.updateData(allLearnedWords)
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
+                .addOnFailureListener {
+                    tasksCompleted++
+                    if (tasksCompleted == chunks.size) binding.progressBar.visibility = View.GONE
+                }
+        }
     }
 }
