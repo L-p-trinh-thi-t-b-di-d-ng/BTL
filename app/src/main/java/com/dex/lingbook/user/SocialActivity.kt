@@ -78,11 +78,11 @@ class SocialActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(currentAvatarUrl)
                 .circleCrop()
-                .placeholder(R.drawable.ic_user_placeholder)
-                .error(R.drawable.ic_user_placeholder)
+                .placeholder(R.drawable.login)
+                .error(R.drawable.login)
                 .into(avatarImageView)
         } else {
-            avatarImageView.setImageResource(R.drawable.ic_user_placeholder)
+            avatarImageView.setImageResource(R.drawable.login)
         }
     }
 
