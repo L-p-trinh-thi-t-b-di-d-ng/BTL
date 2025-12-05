@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="8dp"
+    android:layout_marginBottom="8dp"> <ImageView
+    android:id="@+id/iv_author_avatar"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="12dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_user_placeholder"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        tools:text="Tuấn"
+        app:layout_constraintStart_toEndOf="@id/iv_author_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_author_avatar" />
+
+    <TextView
+        android:id="@+id/tv_time_ago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/gray"
+        tools:text="3h"
+        app:layout_constraintStart_toStartOf="@id/tv_author_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_author_name" />
+
+    <TextView
+        android:id="@+id/tv_post_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_author_avatar" app:layout_constraintTop_toBottomOf="@id/tv_time_ago"
+        tools:text="Tôi học mỗi ngày !!!!!!!" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_post_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:chipBackgroundColor="@color/green"
+        tools:text="on the way ⭐"
+        app:chipBackgroundColor="@color/green"
+        app:layout_constraintStart_toStartOf="@id/tv_post_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_post_content" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_author_name"
+        app:layout_constraintTop_toBottomOf="@id/chip_post_badge" />
+
+    <LinearLayout
+        android:id="@+id/ll_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/divider">
+
+        <Button
+            android:id="@+id/btn_like"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="40dp"  android:layout_weight="1"
+            android:text="Like"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/btn_comment"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="40dp" android:layout_weight="1"
+            android:text="Comment"
+            android:textSize="12sp"
+            android:drawableBottom="@drawable/comment"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/btn_share"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="40dp" android:layout_weight="1"
+            android:text="Share"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
